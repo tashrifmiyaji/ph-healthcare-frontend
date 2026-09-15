@@ -1,3 +1,4 @@
+'use client'
 import QueryProvider from "./query.provider";
 
 export default function Provider({ children }: { children: React.ReactNode }) {
