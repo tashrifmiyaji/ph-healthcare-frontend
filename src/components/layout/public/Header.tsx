@@ -1,3 +1,4 @@
+import Logo from "@/app/assets/svg/Logo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -10,6 +11,7 @@ export default function Header() {
     return (
         <header className="w-full h-16 border border-b">
             <div className="flex justify-between items-center h-full max-w-7xl mx-auto">
+                <Logo/>
                 <div>PH Healthcare</div>
                 <nav className="flex gap-5">
                     {routes.map((route) => (

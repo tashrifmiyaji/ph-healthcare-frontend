@@ -1,5 +1,4 @@
 "use client";
-
 import { useForm } from "@tanstack/react-form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -7,9 +6,14 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { loginSchema } from "@/validation";
 import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
+import { useLogin } from "@/hooks";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+
+  const { mutate: login, isPending: loginPending } = useLogin()
+  const router = useRouter();
 
   const form = useForm({
     defaultValues: {
@@ -20,7 +24,20 @@ export default function LoginForm() {
       onSubmit: loginSchema,
     },
     onSubmit: ({ value }) => {
-      console.log(value);
+      const loginData = {
+        email: value.email,
+        password: value.password
+      }
+
+      login(loginData, {
+        onSuccess: (res) => {
+          console.log(res);
+          router.push("/")
+        },
+        onError: (err) => {
+          console.log(err)
+        }
+      })
     },
   });
 
