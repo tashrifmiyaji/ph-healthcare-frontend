@@ -8,6 +8,8 @@ import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
 import { useLogin } from "@/hooks";
 import { useRouter } from "next/navigation";
+import { toast } from "../ui/toast";
+import { Spinner } from "../ui/spinner";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,9 +34,19 @@ export default function LoginForm() {
       login(loginData, {
         onSuccess: (res) => {
           console.log(res);
+          toast.add({
+            title: "Login successful",
+            description: "welcome back",
+            type: "success"
+          })
           router.push("/")
         },
         onError: (err) => {
+          toast.add({
+            title: "Authorization failure",
+            description: err.message || "something went wrong. please try again.",
+            type: "error"
+          })
           console.log(err)
         }
       })
@@ -119,7 +131,7 @@ export default function LoginForm() {
             }}
           </form.Field>
 
-          <Button type="submit">Submit</Button>
+          <Button disabled={loginPending} type="submit">{loginPending ? <><Spinner /> Submitting</> : "Submit"}</Button>
         </FieldGroup>
       </form>
     </div>
