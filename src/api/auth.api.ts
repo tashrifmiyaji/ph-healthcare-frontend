@@ -8,6 +8,10 @@ export function userLogout() {
     return apiClient("/auth/logout", { method: "POST" })
 }
 
+export function googleOAuth(idToken: string) {
+    return apiClient("/auth/google", { method: "POST", body: idToken })
+}
+
 export function getMe() {
     return apiClient("/auth/me")
 }
