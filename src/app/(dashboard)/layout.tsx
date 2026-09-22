@@ -1,9 +1,6 @@
-import React from 'react'
+import AuthGuard from "@/components/auth/auth-guard";
+import { ReactNode } from "react";
 
-const layout = () => {
-  return (
-    <div>layout</div>
-  )
+export default function layout({ children }: { children: ReactNode }) {
+  return <AuthGuard> {children}</AuthGuard>;
 }
-
-export default layout

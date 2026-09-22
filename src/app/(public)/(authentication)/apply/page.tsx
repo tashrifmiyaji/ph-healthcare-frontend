@@ -1,4 +1,4 @@
-import Logo from "@/app/assets/svg/Logo";
+import Logo from "@/assets/svg/Logo";
 import DoctorApplyForm from "@/components/form/doctor-apply-form";
 import Link from "next/link";
 

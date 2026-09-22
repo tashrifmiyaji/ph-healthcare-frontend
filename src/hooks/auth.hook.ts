@@ -8,15 +8,15 @@ export function useLogin() {
 }
 
 export function useRegistration() {
-  return useMutation({
-    mutationFn: userRegistration,
-  });
+    return useMutation({
+        mutationFn: userRegistration,
+    });
 }
 
 export function useVerifyAccount() {
-  return useMutation({
-    mutationFn: verifyAccount,
-  });
+    return useMutation({
+        mutationFn: verifyAccount,
+    });
 }
 
 export function useLogout() {

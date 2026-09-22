@@ -1,4 +1,4 @@
-import Logo from "@/app/assets/svg/Logo";
+import Logo from "@/assets/svg/Logo";
 import VerifyAccountForm from "@/components/form/verify-account-form";
 
 import Link from "next/link";
