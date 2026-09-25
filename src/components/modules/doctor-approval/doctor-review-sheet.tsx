@@ -45,7 +45,7 @@ export default function DoctorReviewSheet({
     };
 
     verify(reviewData, {
-      onSuccess: (res: Doctor) => {
+      onSuccess: (res: any) => {
         console.log("Success", res);
         handleClose();
       },
