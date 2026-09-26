@@ -42,8 +42,16 @@ export const doctorApplicationSchema = z.object({
     .trim()
     .min(2, "Full name must be at least 2 characters long"),
   email: z.email("Please enter a valid email address"),
-  phone: z.string().trim().min(5, "Contact number is invalid"),
-  address: z.string().trim(),
+  phone: z
+  .string()
+  .trim()
+  .refine(
+    (value) => value === "" || value.length >= 5,
+    {
+      message: "Contact number must be at least 5 characters",
+    }
+  ),
+  address: z.string().trim().refine((value) => value === "" || value.length >= 3),
   specialization: z.string().trim().min(2, "Specialization is required"),
   licenseNumber: z.string().trim().min(3, "License number is required"),
   qualifications: z.string().trim().min(2, "Qualifications are required"),
@@ -68,7 +76,8 @@ export const doctorApplicationSchema = z.object({
   bio: z
     .string()
     .trim()
-    .max(MAX_BIO_LENGTH, `Bio cannot exceed ${MAX_BIO_LENGTH} characters`),
+    .max(MAX_BIO_LENGTH, `Bio cannot exceed ${MAX_BIO_LENGTH} characters`)
+    .refine((value) => value === "" || value.length >= 10),
   resume: getCustomFileSchema<File | null>(
     `Resume must be a PDF, DOC, DOCX or an image file under ${MAX_FILE_SIZE}MB`,
   ).refine((value) => value instanceof File, {
