@@ -27,7 +27,7 @@ export function useSuspenseGetAllDoctors(params: DoctorParams) {
   })
 }
 
-export function useApproveDoctor(params: DoctorParams) {
+export function useApproveDoctor() {
   return useMutation({
     mutationFn: approveDoctor,
   });
