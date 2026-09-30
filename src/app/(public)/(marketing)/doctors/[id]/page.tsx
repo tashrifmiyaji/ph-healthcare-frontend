@@ -1,5 +1,5 @@
 import { getAllPublicDoctors, getPublicDoctorProfile } from "@/api";
-// import DoctorBooking from "@/components/modules/doctors/doctor-booking";
+import DoctorBooking from "@/components/modules/doctors/doctor-booking";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -116,7 +116,7 @@ export default async function page({
             Today&apos;s available slots. Booking redirects to bKash payment.
           </p>
         </div>
-        {/* <DoctorBooking doctorId={doctor.id} /> */}
+        <DoctorBooking doctorId={doctor.id} />
       </div>
     </div>
   );

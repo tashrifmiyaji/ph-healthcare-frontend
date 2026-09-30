@@ -19,6 +19,7 @@ import { patientRegistrationSchema } from "@/validation";
 import z from "zod";
 import { useRegistration } from "@/hooks";
 import { toast } from "../ui/toast";
+import { Spinner } from "../ui/spinner";
 
 export function RegisterForm() {
     const router = useRouter();
@@ -30,12 +31,13 @@ export function RegisterForm() {
     const defaultValues: PatientDefaultValues = {
         name: "Mir",
         email: "mir@gmail.com",
-        contactNumber: "0191234567",
+        contactNumber: "01912345678",
         password: "@User123456",
         confirmPassword: "@User123456",
     };
 
-    const { mutate: registration } = useRegistration();
+    const { mutate: registration, isPending: registrationPending } =
+        useRegistration();
 
     const form = useForm({
         defaultValues,
@@ -53,7 +55,7 @@ export function RegisterForm() {
             };
 
             registration(registrationData, {
-                onSuccess: (res: any) => {
+                onSuccess: (res) => {
                     if (!res.success) {
                         toast.add({
                             title: "Server Failure",
@@ -70,7 +72,7 @@ export function RegisterForm() {
                     const params = new URLSearchParams({ email: registrationData.email });
                     router.push(`/register/verify-account?${params.toString()}`);
                 },
-                onError: (err: any) => {
+                onError: (err) => {
                     toast.add({
                         title: "Authorization failure",
                         description:
@@ -262,13 +264,21 @@ export function RegisterForm() {
                         }}
                     </form.Field>
 
-                    <Button type="submit">Submit</Button>
+                    <Button disabled={registrationPending} type="submit">
+                        {registrationPending ? (
+                            <>
+                                <Spinner /> submitting
+                            </>
+                        ) : (
+                            "Submit"
+                        )}
+                    </Button>
                 </FieldGroup>
             </form>
 
             <FieldSeparator>Or continue with</FieldSeparator>
 
-            <GoogleLoginComponent/>
+            <GoogleLoginComponent />
 
             <div className="text-center text-sm text-muted-foreground">
                 Already have an account?{" "}

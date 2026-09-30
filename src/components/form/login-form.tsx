@@ -1,22 +1,31 @@
 "use client";
+
 import { useForm } from "@tanstack/react-form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Field, FieldError, FieldGroup, FieldLabel, FieldSeparator } from "../ui/field";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldSeparator,
+} from "../ui/field";
 import { loginSchema } from "@/validation";
 import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
-import { useLogin } from "@/hooks";
+import { useGoogleOAuth, useLogin } from "@/hooks";
 import { useRouter } from "next/navigation";
 import { toast } from "../ui/toast";
 import { Spinner } from "../ui/spinner";
+import { GoogleLogin } from "@react-oauth/google";
+import Link from "next/link";
 import GoogleLoginComponent from "../modules/google-login/GoogleLogin";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-
-  const { mutate: login, isPending: loginPending } = useLogin()
   const router = useRouter();
+
+  const { mutate: login, isPending: loginPending } = useLogin();
 
   const form = useForm({
     defaultValues: {
@@ -29,28 +38,27 @@ export default function LoginForm() {
     onSubmit: ({ value }) => {
       const loginData = {
         email: value.email,
-        password: value.password
-      }
+        password: value.password,
+      };
 
       login(loginData, {
         onSuccess: (res) => {
-          console.log(res);
           toast.add({
-            title: "Login successful",
-            description: "welcome back",
-            type: "success"
-          })
-          router.push("/")
+            title: "Login Success",
+            description: "Welcome back",
+            type: "success",
+          });
+          router.push("/");
         },
         onError: (err) => {
           toast.add({
             title: "Authorization failure",
-            description: err.message || "something went wrong. please try again.",
-            type: "error"
-          })
-          console.log(err)
-        }
-      })
+            description:
+              err.message || "Something went wrong. Please try again",
+            type: "error",
+          });
+        },
+      });
     },
   });
 
@@ -132,11 +140,31 @@ export default function LoginForm() {
             }}
           </form.Field>
 
-          <Button disabled={loginPending} type="submit">{loginPending ? <><Spinner /> Submitting</> : "Submit"}</Button>
+          <Button disabled={loginPending} type="submit">
+            {loginPending ? (
+              <>
+                <Spinner /> submitting
+              </>
+            ) : (
+              "Submit"
+            )}
+          </Button>
         </FieldGroup>
       </form>
-      <FieldSeparator>Or</FieldSeparator>
+
+      <FieldSeparator>Or continue with</FieldSeparator>
+
       <GoogleLoginComponent />
+
+      <div className="text-center text-sm text-muted-foreground">
+        Don&apos;t have an account?{" "}
+        <Link
+          href="/register"
+          className="font-medium underline underline-offset-4 hover:text-primary"
+        >
+          Register
+        </Link>
+      </div>
     </div>
   );
 }
